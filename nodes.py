@@ -182,7 +182,7 @@ class Sam2Segmentation:
             "required": {
                 "sam2_model": ("SAM2MODEL", ),
                 "image": ("IMAGE", ),
-                "keep_model_loaded": ("BOOLEAN", {"default": True}),
+                "keep_model_loaded": ("BOOLEAN", {"default": False}),
             },
             "optional": {
                 "coordinates_positive": ("STRING", {"forceInput": True}),
@@ -411,6 +411,9 @@ class Sam2Segmentation:
                 model.to(offload_device)
             except:
                 model.model.to(offload_device)
+            model.reset_state(self.inference_state)
+            self.inference_state = None
+            mm.soft_empty_cache()
         
         out_list = []
         for mask in mask_list:
