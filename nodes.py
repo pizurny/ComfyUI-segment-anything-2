@@ -347,7 +347,7 @@ class Sam2Segmentation:
 
             elif segmentor == 'video':
                 mask_list = []
-                if hasattr(self, 'inference_state'):
+                if hasattr(self, 'inference_state') and self.inference_state is not None:
                     model.reset_state(self.inference_state)
                 self.inference_state = model.init_state(image.permute(0, 3, 1, 2).contiguous(), H, W, device=device)
                 if bboxes is None:
